@@ -17,7 +17,10 @@
 
 package org.apache.commons.net.imap;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 
 /**
  * The IMAPClient class provides the basic functionalities found in an
@@ -424,6 +427,10 @@ public class IMAPClient extends IMAP
     public boolean uid(String command, String commandArgs) throws IOException
     {
         return doCommand (IMAPCommand.UID, command + " " + commandArgs);
+    }
+
+    protected BufferedReader createReader() throws UnsupportedEncodingException {
+        return new IMAPClientLineReader(new InputStreamReader(_input_, __DEFAULT_ENCODING));
     }
 
     /**

@@ -23,6 +23,7 @@ import java.io.EOFException;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -214,9 +215,7 @@ public class IMAP extends SocketClient
     protected void _connectAction_() throws IOException
     {
         super._connectAction_();
-        _reader =
-          new CRLFLineReader(new InputStreamReader(_input_,
-                                                   __DEFAULT_ENCODING));
+        _reader = createReader();
         __writer =
           new BufferedWriter(new OutputStreamWriter(_output_,
                                                     __DEFAULT_ENCODING));
@@ -466,6 +465,10 @@ public class IMAP extends SocketClient
             }
         }
         return res;
+    }
+
+    protected BufferedReader createReader() throws UnsupportedEncodingException {
+        return new CRLFLineReader(new InputStreamReader(_input_, __DEFAULT_ENCODING));
     }
 }
 /* kate: indent-width 4; replace-tabs on; */
